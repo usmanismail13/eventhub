@@ -2,7 +2,9 @@ require("dotenv").config();
 
 const mongoose = require("mongoose");
 const express = require("express");
+
 const authRoutes = require("./routes/authRoutes");
+const eventRoutes = require("./routes/eventRoutes");
 
 const app = express();
 
@@ -17,6 +19,7 @@ mongoose.connect(process.env.MONGO_URI)
   });
 
 app.use("/api/auth", authRoutes);
+app.use("/api/events", eventRoutes);
 
 app.get("/", (req, res) => {
   res.send("EventHub API Running");
