@@ -7,13 +7,14 @@ const {
   updateEvent,
   deleteEvent
 } = require("../controllers/eventController");
+const upload = require("../config/multer");
 
 const router = express.Router();
 
 router.get("/", getEvents);
 router.get("/:id", getEvent);
 
-router.post("/", createEvent);
+router.post("/", upload.single("image"), createEvent);
 
 router.put("/:id", updateEvent);
 
