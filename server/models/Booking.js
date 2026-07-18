@@ -22,6 +22,18 @@ const bookingSchema = new mongoose.Schema(
       enum: ["confirmed", "cancelled"],
       default: "confirmed",
     },
+    transactionHash: {
+  type: String,
+},
+paymentMethod: {
+  type: String,
+  default: "Trust Wallet",
+},
+
+paymentStatus: {
+  type: String,
+  default: "completed",
+},
   },
   {
     timestamps: true,

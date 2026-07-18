@@ -1,4 +1,5 @@
 import { Routes, Route, Link } from "react-router-dom";
+import ConnectWallet from "./components/ConnectWallet";
 
 import Home from "./pages/Home";
 import Login from "./pages/Login";
@@ -20,6 +21,8 @@ function App() {
         <Link to="/profile">Profile</Link> |{" "}
         <Link to="/dashboard">Dashboard</Link>
       </nav>
+
+      <ConnectWallet />
 
       <Routes>
         <Route path="/" element={<Home />} />
