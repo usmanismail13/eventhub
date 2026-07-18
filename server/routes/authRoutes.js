@@ -1,4 +1,5 @@
 const express = require("express");
+
 const {
   registerUser,
   loginUser,
@@ -6,6 +7,10 @@ const {
 
 const protect = require("../middleware/authMiddleware");
 const authorizeRoles = require("../middleware/roleMiddleware");
+
+// ADD THESE TWO LINES HERE
+console.log("protect:", typeof protect);
+console.log("authorizeRoles:", typeof authorizeRoles);
 
 const router = express.Router();
 
