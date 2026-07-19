@@ -1,3 +1,5 @@
+import { useEffect, useState } from "react";
+import socket from "./services/socket";
 import { Routes, Route, Link } from "react-router-dom";
 import ConnectWallet from "./components/ConnectWallet";
 
@@ -11,6 +13,34 @@ import Dashboard from "./pages/Dashboard";
 import NotFound from "./pages/NotFound";
 
 function App() {
+  const [notification, setNotification] = useState("");
+  useEffect(() => {
+  const handleConnect = () => {
+    console.log("Connected to Socket.IO server:", socket.id);
+
+    socket.emit("userJoined", {
+      message: "A user has joined EventHub",
+    });
+  };
+
+  const handleWelcome = (data) => {
+  console.log(data.message);
+  setNotification(data.message);
+};
+
+  if (socket.connected) {
+    handleConnect();
+  }
+
+  socket.on("connect", handleConnect);
+  socket.on("welcome", handleWelcome);
+
+  return () => {
+    socket.off("connect", handleConnect);
+    socket.off("welcome", handleWelcome);
+  };
+}, []);
+
   return (
     <>
       <nav>
@@ -21,7 +51,20 @@ function App() {
         <Link to="/profile">Profile</Link> |{" "}
         <Link to="/dashboard">Dashboard</Link>
       </nav>
-
+ {notification && (
+  <div
+    style={{
+      background: "#d1fae5",
+      color: "#065f46",
+      padding: "10px",
+      margin: "10px 0",
+      borderRadius: "6px",
+      fontWeight: "bold",
+    }}
+  >
+    {notification}
+  </div>
+)}
       <ConnectWallet />
 
       <Routes>

@@ -2,6 +2,8 @@ require("dotenv").config();
 
 const mongoose = require("mongoose");
 const express = require("express");
+const http = require("http");
+const { Server } = require("socket.io");
 
 const authRoutes = require("./routes/authRoutes");
 const eventRoutes = require("./routes/eventRoutes");
@@ -9,7 +11,16 @@ const bookingRoutes = require("./routes/bookingRoutes");
 const paymentRoutes = require("./routes/paymentRoutes");
 const reviewRoutes = require("./routes/reviewRoutes");
 const commentRoutes = require("./routes/commentRoutes");
+
 const app = express();
+const server = http.createServer(app);
+
+const io = new Server(server, {
+  cors: {
+    origin: "http://localhost:5173",
+    methods: ["GET", "POST"],
+  },
+});
 
 app.use(express.json());
 
@@ -29,8 +40,24 @@ mongoose
     console.log(error);
   });
 
+io.on("connection", (socket) => {
+  console.log(`User connected: ${socket.id}`);
+
+  socket.on("userJoined", (data) => {
+    console.log(data.message);
+
+    socket.emit("welcome", {
+      message: "Welcome to EventHub!",
+    });
+  });
+
+  socket.on("disconnect", () => {
+    console.log(`User disconnected: ${socket.id}`);
+  });
+});
+
 app.get("/", (req, res) => {
   res.send("EventHub API Running");
 });
 
-module.exports = app;
+module.exports = { app, server, io };
