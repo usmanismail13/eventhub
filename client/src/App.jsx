@@ -10,36 +10,38 @@ import Events from "./pages/Events";
 import EventDetails from "./pages/EventDetails";
 import Profile from "./pages/Profile";
 import Dashboard from "./pages/Dashboard";
+import AdminUsers from "./pages/AdminUsers";
 import NotFound from "./pages/NotFound";
 
 function App() {
   const [notification, setNotification] = useState("");
+
   useEffect(() => {
-  const handleConnect = () => {
-    console.log("Connected to Socket.IO server:", socket.id);
+    const handleConnect = () => {
+      console.log("Connected to Socket.IO server:", socket.id);
 
-    socket.emit("userJoined", {
-      message: "A user has joined EventHub",
-    });
-  };
+      socket.emit("userJoined", {
+        message: "A user has joined EventHub",
+      });
+    };
 
-  const handleWelcome = (data) => {
-  console.log(data.message);
-  setNotification(data.message);
-};
+    const handleWelcome = (data) => {
+      console.log(data.message);
+      setNotification(data.message);
+    };
 
-  if (socket.connected) {
-    handleConnect();
-  }
+    if (socket.connected) {
+      handleConnect();
+    }
 
-  socket.on("connect", handleConnect);
-  socket.on("welcome", handleWelcome);
+    socket.on("connect", handleConnect);
+    socket.on("welcome", handleWelcome);
 
-  return () => {
-    socket.off("connect", handleConnect);
-    socket.off("welcome", handleWelcome);
-  };
-}, []);
+    return () => {
+      socket.off("connect", handleConnect);
+      socket.off("welcome", handleWelcome);
+    };
+  }, []);
 
   return (
     <>
@@ -49,22 +51,25 @@ function App() {
         <Link to="/register">Register</Link> |{" "}
         <Link to="/events">Events</Link> |{" "}
         <Link to="/profile">Profile</Link> |{" "}
-        <Link to="/dashboard">Dashboard</Link>
+        <Link to="/dashboard">Dashboard</Link> |{" "}
+        <Link to="/admin/users">Admin Users</Link>
       </nav>
- {notification && (
-  <div
-    style={{
-      background: "#d1fae5",
-      color: "#065f46",
-      padding: "10px",
-      margin: "10px 0",
-      borderRadius: "6px",
-      fontWeight: "bold",
-    }}
-  >
-    {notification}
-  </div>
-)}
+
+      {notification && (
+        <div
+          style={{
+            background: "#d1fae5",
+            color: "#065f46",
+            padding: "10px",
+            margin: "10px 0",
+            borderRadius: "6px",
+            fontWeight: "bold",
+          }}
+        >
+          {notification}
+        </div>
+      )}
+
       <ConnectWallet />
 
       <Routes>
@@ -75,6 +80,7 @@ function App() {
         <Route path="/events/:id" element={<EventDetails />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/admin/users" element={<AdminUsers />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </>
