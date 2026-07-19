@@ -8,6 +8,7 @@ const eventRoutes = require("./routes/eventRoutes");
 const bookingRoutes = require("./routes/bookingRoutes");
 const paymentRoutes = require("./routes/paymentRoutes");
 const reviewRoutes = require("./routes/reviewRoutes");
+const commentRoutes = require("./routes/commentRoutes");
 const app = express();
 
 app.use(express.json());
@@ -17,6 +18,7 @@ app.use("/api/events", eventRoutes);
 app.use("/api/bookings", bookingRoutes);
 app.use("/payment", paymentRoutes);
 app.use("/api/reviews", reviewRoutes);
+app.use("/api/comments", commentRoutes);
 
 mongoose
   .connect(process.env.MONGO_URI)
