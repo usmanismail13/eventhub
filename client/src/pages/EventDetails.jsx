@@ -11,7 +11,7 @@ function EventDetails() {
   const fetchComments = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:5000/api/comments/${eventId}`
+        `${import.meta.env.VITE_API_URL}/api/comments/${eventId}`
       );
 
       setComments(response.data);

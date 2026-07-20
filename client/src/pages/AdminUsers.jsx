@@ -9,7 +9,7 @@ const AdminUsers = () => {
       const token = localStorage.getItem("token");
 
       const response = await axios.get(
-        "http://localhost:5000/api/admin/users",
+        `${import.meta.env.VITE_API_URL}/api/admin/users`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
