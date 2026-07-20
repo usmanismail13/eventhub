@@ -14,6 +14,7 @@
     "@reown/appkit-adapter-ethers": "^1.8.22",
     "@tailwindcss/vite": "^4.3.3",
     "ethers": "^6.17.0",
+    "lucide-react": "^1.25.0",
     "react": "^19.2.7",
     "react-dom": "^19.2.7",
     "react-icons": "^5.7.0",

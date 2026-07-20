@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import socket from "./services/socket";
-import { Routes, Route, Link } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
+
+import Navbar from "./components/Navbar";
 import ConnectWallet from "./components/ConnectWallet";
 
 import Home from "./pages/Home";
@@ -45,15 +47,7 @@ function App() {
 
   return (
     <>
-      <nav>
-        <Link to="/">Home</Link> |{" "}
-        <Link to="/login">Login</Link> |{" "}
-        <Link to="/register">Register</Link> |{" "}
-        <Link to="/events">Events</Link> |{" "}
-        <Link to="/profile">Profile</Link> |{" "}
-        <Link to="/dashboard">Dashboard</Link> |{" "}
-        <Link to="/admin/users">Admin Users</Link>
-      </nav>
+      <Navbar />
 
       {notification && (
         <div

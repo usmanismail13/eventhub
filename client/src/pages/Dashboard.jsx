@@ -36,13 +36,13 @@ const revenue = {
 
 const Dashboard = () => {
   return (
-    <div className="min-h-screen p-6">
-      <h1 className="text-3xl font-bold mb-6">
+    <div className="max-w-7xl mx-auto px-4 py-8">
+      <h1 className="text-3xl md:text-5xl font-bold mb-8 text-center">
         Organizer Dashboard
       </h1>
 
       {/* Statistics */}
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4 mb-8">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4 mb-10">
         <div className="rounded-lg border p-6 shadow">
           <h2 className="text-lg font-semibold">🎉 Total Events</h2>
           <p className="mt-2 text-3xl font-bold">0</p>
@@ -85,7 +85,7 @@ const Dashboard = () => {
       </div>
 
       {/* Bookings */}
-      <h2 className="text-2xl font-bold mt-8 mb-4">
+      <h2 className="text-2xl font-bold mt-10 mb-4">
         Bookings
       </h2>
 
@@ -105,7 +105,7 @@ const Dashboard = () => {
       </div>
 
       {/* Revenue */}
-      <h2 className="text-2xl font-bold mt-8 mb-4">
+      <h2 className="text-2xl font-bold mt-10 mb-4">
         Revenue
       </h2>
 

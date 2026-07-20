@@ -25,29 +25,44 @@ function EventDetails() {
   }, []);
 
   return (
-    <div>
-      <h1>Event Details Page</h1>
+    <div className="max-w-5xl mx-auto px-4 py-8">
+      <h1 className="text-3xl md:text-5xl font-bold mb-4">
+        Event Details
+      </h1>
 
-      <p>View complete information about an event.</p>
+      <p className="text-gray-600 mb-6">
+        View complete information about an event.
+      </p>
 
-      <PaymentButton />
+      <div className="mb-8">
+        <PaymentButton />
+      </div>
 
-      <hr />
+      <hr className="my-8" />
 
-      <h2>Comments</h2>
+      <h2 className="text-2xl font-semibold mb-4">
+        Comments
+      </h2>
 
       {comments.length === 0 ? (
-        <p>No comments yet.</p>
+        <p className="text-gray-500">
+          No comments yet.
+        </p>
       ) : (
-        comments.map((comment) => (
-          <div key={comment._id}>
-            <p>{comment.text}</p>
+        <div className="space-y-4">
+          {comments.map((comment) => (
+            <div
+              key={comment._id}
+              className="border rounded-lg p-4 shadow-sm"
+            >
+              <p className="mb-2">{comment.text}</p>
 
-            <small>
-              By {comment.user?.name || "User"}
-            </small>
-          </div>
-        ))
+              <small className="text-gray-500">
+                By {comment.user?.name || "User"}
+              </small>
+            </div>
+          ))}
+        </div>
       )}
     </div>
   );

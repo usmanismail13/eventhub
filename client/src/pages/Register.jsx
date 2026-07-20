@@ -1,8 +1,109 @@
+import { useState } from "react";
+import axios from "axios";
+
 function Register() {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const registerHandler = async (e) => {
+    e.preventDefault();
+
+    try {
+      const response = await axios.post(
+        "http://localhost:5000/api/auth/register",
+        {
+          name,
+          email,
+          password,
+          role: "user",
+        }
+      );
+
+      alert(response.data.message);
+    } catch (error) {
+      alert(
+        error.response?.data?.message || "Registration failed"
+      );
+    }
+  };
+
   return (
-    <div>
-      <h1>Register Page</h1>
-      <p>Create your EventHub account.</p>
+    <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
+      <div className="w-full max-w-md bg-white shadow-lg rounded-lg p-8">
+        <h1 className="text-3xl font-bold text-center mb-6">
+          Register
+        </h1>
+
+        <form onSubmit={registerHandler} className="space-y-5">
+          <div>
+            <label
+              htmlFor="name"
+              className="block mb-2 font-medium"
+            >
+              Name
+            </label>
+
+            <input
+              id="name"
+              type="text"
+              placeholder="Enter your name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              required
+              autoComplete="name"
+              className="w-full border rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+
+          <div>
+            <label
+              htmlFor="email"
+              className="block mb-2 font-medium"
+            >
+              Email
+            </label>
+
+            <input
+              id="email"
+              type="email"
+              placeholder="Enter your email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              autoComplete="email"
+              className="w-full border rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+
+          <div>
+            <label
+              htmlFor="password"
+              className="block mb-2 font-medium"
+            >
+              Password
+            </label>
+
+            <input
+              id="password"
+              type="password"
+              placeholder="Enter your password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              autoComplete="new-password"
+              className="w-full border rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+
+          <button
+            type="submit"
+            className="w-full bg-blue-600 text-white p-3 rounded-md hover:bg-blue-700 transition"
+          >
+            Register
+          </button>
+        </form>
+      </div>
     </div>
   );
 }
