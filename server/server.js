@@ -31,7 +31,7 @@ app.use(
     credentials: true,
   })
 );
-
+// CORS production update
 app.use(express.json());
 
 // Socket.IO
