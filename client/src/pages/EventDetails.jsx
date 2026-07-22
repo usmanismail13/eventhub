@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import PaymentButton from "../components/PaymentButton";
 
 function EventDetails() {
   const { id } = useParams();
+  const navigate = useNavigate();
 
   const [comments, setComments] = useState([]);
   const [event, setEvent] = useState(null);
@@ -34,6 +35,30 @@ function EventDetails() {
       console.log(error);
     }
   };
+  const handleBook = async () => {
+  try {
+    const token = localStorage.getItem("token");
+
+    const response = await axios.post(
+      `${import.meta.env.VITE_API_URL}/api/bookings`,
+      {
+        event: eventId,
+        seats: 1,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    alert("Booking created successfully!");
+    console.log(response.data);
+  } catch (error) {
+    console.log(error);
+    alert("Booking failed.");
+  }
+};
 
   useEffect(() => {
     fetchEvent();
@@ -82,8 +107,15 @@ function EventDetails() {
       )}
 
       <div className="mb-8">
-        <PaymentButton />
-      </div>
+  <button
+    onClick={handleBook}
+    className="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 mb-4"
+  >
+    Book Event
+  </button>
+
+  <PaymentButton />
+</div>
 
       <hr className="my-8" />
 
