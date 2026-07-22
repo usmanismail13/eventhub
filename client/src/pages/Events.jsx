@@ -12,16 +12,16 @@ function Events() {
   const navigate = useNavigate();
 
   useEffect(() => {
-  const fetchEvents = async () => {
-    const response = await axios.get(
-      `${import.meta.env.VITE_API_URL}/api/events`
-    );
+    const fetchEvents = async () => {
+      const response = await axios.get(
+        `${import.meta.env.VITE_API_URL}/api/events`
+      );
 
-    setEvents(response.data);
-  };
+      setEvents(response.data);
+    };
 
-  fetchEvents();
-}, []);
+    fetchEvents();
+  }, []);
 
   const filteredEvents = events.filter((event) => {
     const matchesSearch = event.title
@@ -97,10 +97,10 @@ function Events() {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {filteredEvents.map((event) => (
           <div
-  key={event._id}
-  onClick={() => navigate(`/events/${event._id}`)}
-  className="border rounded-lg shadow-md p-5 cursor-pointer hover:shadow-lg"
->
+            key={event._id}
+            onClick={() => navigate(`/events/${event._id}`)}
+            className="border rounded-lg shadow-md p-5 cursor-pointer hover:shadow-lg"
+          >
             <h3 className="text-xl font-semibold mb-2">
               {event.title}
             </h3>
@@ -116,13 +116,25 @@ function Events() {
             <p>
               <strong>Date:</strong> {event.date}
             </p>
-            <p>
-  <strong>Description:</strong> {event.description}
-</p>
 
-<p>
-  <strong>Available Seats:</strong> {event.availableSeats}
-</p>
+            <p>
+              <strong>Description:</strong> {event.description}
+            </p>
+
+            <p>
+              <strong>Available Seats:</strong> {event.availableSeats}
+            </p>
+
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                navigate(`/edit-event/${event._id}`);
+              }}
+              className="mt-4 bg-blue-600 text-white px-4 py-2 rounded"
+            >
+              Edit Event
+            </button>
+
           </div>
         ))}
       </div>
