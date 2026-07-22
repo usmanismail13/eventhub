@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 function Events() {
@@ -7,6 +8,8 @@ function Events() {
   const [location, setLocation] = useState("");
   const [date, setDate] = useState("");
   const [events, setEvents] = useState([]);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
   const fetchEvents = async () => {
@@ -94,9 +97,10 @@ function Events() {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {filteredEvents.map((event) => (
           <div
-            key={event._id}
-            className="border rounded-lg shadow-md p-5"
-          >
+  key={event._id}
+  onClick={() => navigate(`/events/${event._id}`)}
+  className="border rounded-lg shadow-md p-5 cursor-pointer hover:shadow-lg"
+>
             <h3 className="text-xl font-semibold mb-2">
               {event.title}
             </h3>
