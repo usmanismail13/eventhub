@@ -1,0 +1,21 @@
+[33m7d0f227[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m Complete event management features
+[33m64758b2[m Fix Vercel React Router refresh
+[33mbba5940[m Force Railway redeploy
+[33m8a657b6[m Fix production Socket.IO CORS
+[33m2458fd3[m Update API URLs for deployment
+[33m61dcb2e[m Complete Phase 20 - Responsive Design
+[33m4b060f5[m Complete admin panel features
+[33m443812d[m Complete Phase 18 - Organizer Dashboard
+[33m27a8c4e[m Complete Phase 17 - Socket.IO notifications
+[33m4891c7b[m Add comments feature
+[33mc67ca33[m Add review system
+[33med29dc1[m Complete Trust Wallet demo payment integration
+[33md8d60d8[m Added booking system
+[33m0618509[m Complete Phase 12 search and filters
+[33m3ffb84c[m Add Cloudinary image upload for events
+[33m36e5c5b[m Complete Phase 10 - Events CRUD API
+[33m5d0082a[m Complete Phase 9: Authentication and Role-Based Access Control
+[33mde4ccfe[m Setup Express backend server
+[33m3ca1e88[m Setup Tailwind CSS and React Icons
+[33me45b022[m Complete Phase 2: React setup
+[33m5ea6704[m Initial project setup
