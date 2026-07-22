@@ -46,12 +46,20 @@ const Dashboard = () => {
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
+      
       <div className="flex justify-end mb-4">
         <button
           onClick={logoutHandler}
           className="bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 transition"
         >
           Logout
+        </button>
+
+        <button
+          onClick={() => navigate("/create-event")}
+          className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition ml-3"
+        >
+          Create Event
         </button>
       </div>
 
@@ -116,6 +124,7 @@ const Dashboard = () => {
             <h3 className="text-xl font-semibold">
               {booking.event}
             </h3>
+
             <p>👤 Attendee: {booking.attendee}</p>
             <p>🎟️ Seats: {booking.seats}</p>
           </div>
@@ -142,6 +151,7 @@ const Dashboard = () => {
           {revenue.averageBookingValue}
         </p>
       </div>
+
     </div>
   );
 };

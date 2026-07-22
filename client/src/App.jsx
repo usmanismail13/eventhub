@@ -14,6 +14,7 @@ import Profile from "./pages/Profile";
 import Dashboard from "./pages/Dashboard";
 import AdminUsers from "./pages/AdminUsers";
 import NotFound from "./pages/NotFound";
+import CreateEvent from "./pages/CreateEvent";
 
 function App() {
   const [notification, setNotification] = useState("");
@@ -76,6 +77,7 @@ function App() {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/admin/users" element={<AdminUsers />} />
         <Route path="*" element={<NotFound />} />
+        <Route path="/create-event" element={<CreateEvent />} />
       </Routes>
     </>
   );
