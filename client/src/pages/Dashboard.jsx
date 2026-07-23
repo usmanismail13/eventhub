@@ -1,4 +1,6 @@
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const sampleEvents = [
   {
@@ -39,6 +41,46 @@ const revenue = {
 const Dashboard = () => {
   const navigate = useNavigate();
 
+  const [stats, setStats] = useState({
+    totalEvents: 0,
+    totalBookings: 0,
+    totalRevenue: 0,
+    totalReviews: 0,
+  });
+  const [events, setEvents] = useState([]);
+  const [bookings, setBookings] = useState([]);
+
+  useEffect(() => {
+    const fetchDashboardStats = async () => {
+      try {
+        const response = await axios.get(
+          `${import.meta.env.VITE_API_URL}/api/dashboard`
+        );
+
+        setStats(response.data);
+        const eventsResponse = await axios.get(
+  `${import.meta.env.VITE_API_URL}/api/events`
+);
+
+setEvents(eventsResponse.data);
+const bookingsResponse = await axios.get(
+  `${import.meta.env.VITE_API_URL}/api/bookings`,
+  {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+  }
+);
+
+setBookings(bookingsResponse.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchDashboardStats();
+  }, []);
+
   const logoutHandler = () => {
     localStorage.removeItem("token");
     navigate("/login");
@@ -46,7 +88,6 @@ const Dashboard = () => {
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
-      
       <div className="flex justify-end mb-4">
         <button
           onClick={logoutHandler}
@@ -71,22 +112,30 @@ const Dashboard = () => {
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4 mb-10">
         <div className="rounded-lg border p-6 shadow">
           <h2 className="text-lg font-semibold">🎉 Total Events</h2>
-          <p className="mt-2 text-3xl font-bold">0</p>
+          <p className="mt-2 text-3xl font-bold">
+            {stats.totalEvents}
+          </p>
         </div>
 
         <div className="rounded-lg border p-6 shadow">
           <h2 className="text-lg font-semibold">🎟️ Total Bookings</h2>
-          <p className="mt-2 text-3xl font-bold">0</p>
+          <p className="mt-2 text-3xl font-bold">
+            {stats.totalBookings}
+          </p>
         </div>
 
         <div className="rounded-lg border p-6 shadow">
           <h2 className="text-lg font-semibold">💰 Total Revenue</h2>
-          <p className="mt-2 text-3xl font-bold">$0</p>
+          <p className="mt-2 text-3xl font-bold">
+            ${stats.totalRevenue}
+          </p>
         </div>
 
         <div className="rounded-lg border p-6 shadow">
           <h2 className="text-lg font-semibold">⭐ Total Reviews</h2>
-          <p className="mt-2 text-3xl font-bold">0</p>
+          <p className="mt-2 text-3xl font-bold">
+            {stats.totalReviews}
+          </p>
         </div>
       </div>
 
@@ -96,9 +145,9 @@ const Dashboard = () => {
       </h2>
 
       <div className="space-y-4">
-        {sampleEvents.map((event) => (
+        {events.map((event) => (
           <div
-            key={event.id}
+           key={event._id}
             className="rounded-lg border p-4 shadow"
           >
             <h3 className="text-xl font-semibold">
@@ -116,16 +165,16 @@ const Dashboard = () => {
       </h2>
 
       <div className="space-y-4">
-        {sampleBookings.map((booking) => (
+        {bookings.map((booking) => (
           <div
-            key={booking.id}
+            key={booking._id}
             className="rounded-lg border p-4 shadow"
           >
             <h3 className="text-xl font-semibold">
-              {booking.event}
+              {booking.event.title}
             </h3>
 
-            <p>👤 Attendee: {booking.attendee}</p>
+            <p>👤 Attendee: {booking.user.name}</p>
             <p>🎟️ Seats: {booking.seats}</p>
           </div>
         ))}
@@ -151,7 +200,6 @@ const Dashboard = () => {
           {revenue.averageBookingValue}
         </p>
       </div>
-
     </div>
   );
 };

@@ -3,8 +3,8 @@ const Event = require("../models/Event");
 
 const createBooking = async (req, res) => {
   try {
-    
     console.log(req.body);
+
     const { eventId, tickets } = req.body;
 
     const existingBooking = await Booking.findOne({
@@ -53,6 +53,21 @@ const createBooking = async (req, res) => {
   }
 };
 
+const getBookings = async (req, res) => {
+  try {
+    const bookings = await Booking.find()
+      .populate("event", "title")
+      .populate("user", "name");
+
+    res.json(bookings);
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
+
 module.exports = {
   createBooking,
+  getBookings,
 };
