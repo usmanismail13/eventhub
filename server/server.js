@@ -31,7 +31,7 @@ app.use(
     credentials: true,
   })
 );
-// CORS production update
+
 app.use(express.json());
 
 // Socket.IO
@@ -43,6 +43,7 @@ const io = new Server(server, {
   },
 });
 
+// Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/events", eventRoutes);
 app.use("/api/bookings", bookingRoutes);
@@ -51,6 +52,7 @@ app.use("/api/reviews", reviewRoutes);
 app.use("/api/comments", commentRoutes);
 app.use("/api/admin", adminRoutes);
 
+// MongoDB Connection
 mongoose
   .connect(process.env.MONGO_URI)
   .then(() => {
@@ -60,22 +62,35 @@ mongoose
     console.log(error);
   });
 
+// Socket.IO Events
 io.on("connection", (socket) => {
   console.log(`User connected: ${socket.id}`);
 
   socket.on("userJoined", (data) => {
     console.log(data.message);
 
+    // Welcome message for current user
     socket.emit("welcome", {
       message: "Welcome to EventHub!",
+    });
+
+    // Notification for other connected users
+    socket.broadcast.emit("notification", {
+      message: "A new user joined EventHub!",
     });
   });
 
   socket.on("disconnect", () => {
     console.log(`User disconnected: ${socket.id}`);
+
+    // Notify other users when someone leaves
+    socket.broadcast.emit("notification", {
+      message: "A user left EventHub!",
+    });
   });
 });
 
+// Test Route
 app.get("/", (req, res) => {
   res.send("EventHub API Running");
 });

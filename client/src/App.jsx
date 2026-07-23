@@ -34,16 +34,23 @@ function App() {
       setNotification(data.message);
     };
 
+    const handleNotification = (data) => {
+  console.log("NOTIFICATION RECEIVED:", data.message);
+  setNotification(data.message);
+};
+
     if (socket.connected) {
       handleConnect();
     }
 
     socket.on("connect", handleConnect);
     socket.on("welcome", handleWelcome);
+    socket.on("notification", handleNotification);
 
     return () => {
       socket.off("connect", handleConnect);
       socket.off("welcome", handleWelcome);
+      socket.off("notification", handleNotification);
     };
   }, []);
 
@@ -70,16 +77,26 @@ function App() {
 
       <Routes>
         <Route path="/" element={<Home />} />
+
         <Route path="/login" element={<Login />} />
+
         <Route path="/register" element={<Register />} />
+
         <Route path="/events" element={<Events />} />
+
         <Route path="/events/:id" element={<EventDetails />} />
+
         <Route path="/profile" element={<Profile />} />
+
         <Route path="/dashboard" element={<Dashboard />} />
+
         <Route path="/admin/users" element={<AdminUsers />} />
-        <Route path="*" element={<NotFound />} />
+
         <Route path="/create-event" element={<CreateEvent />} />
+
         <Route path="/edit-event/:id" element={<EditEvent />} />
+
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </>
   );
