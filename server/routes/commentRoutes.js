@@ -1,3 +1,4 @@
+const protect = require("../middleware/authMiddleware");
 const express = require("express");
 const router = express.Router();
 
@@ -9,7 +10,7 @@ const {
 
 
 // Create comment
-router.post("/", createComment);
+router.post("/", protect, createComment);
 
 // Get comments for an event
 router.get("/:eventId", getComments);

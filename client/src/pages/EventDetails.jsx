@@ -10,7 +10,7 @@ function EventDetails() {
   const [comments, setComments] = useState([]);
 const [reviews, setReviews] = useState([]);
 const [event, setEvent] = useState(null);
-
+const [commentText, setCommentText] = useState("");
   const eventId = id;
 
   const fetchComments = async () => {
@@ -23,6 +23,37 @@ const [event, setEvent] = useState(null);
       console.log(error);
     }
   };
+  const handleAddComment = async () => {
+  try {
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      alert("You must be logged in to comment.");
+      return;
+    }
+
+    const response = await axios.post(
+      `${import.meta.env.VITE_API_URL}/api/comments`,
+      {
+        event: eventId,
+        text: commentText,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    setComments([...comments, response.data]);
+    setCommentText("");
+
+  } catch (error) {
+  console.log(error.response?.data);
+  console.log(error.response?.status);
+  alert(error.response?.data?.message || "Failed to add comment");
+}
+};
   const fetchReviews = async () => {
   try {
     const response = await axios.get(
@@ -166,6 +197,21 @@ const [event, setEvent] = useState(null);
       <h2 className="text-2xl font-semibold mb-4">
         Comments
       </h2>
+      <div className="mb-6">
+  <textarea
+    placeholder="Type a comment"
+    value={commentText}
+    onChange={(e) => setCommentText(e.target.value)}
+    className="w-full border rounded-lg p-3 mb-3"
+  />
+
+  <button
+    onClick={handleAddComment}
+    className="bg-blue-600 text-white px-5 py-2 rounded hover:bg-blue-700"
+  >
+    Add Comment
+  </button>
+</div>
 
       {comments.length === 0 ? (
         <p className="text-gray-500">
