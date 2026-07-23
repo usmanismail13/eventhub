@@ -8,7 +8,8 @@ function EventDetails() {
   const navigate = useNavigate();
 
   const [comments, setComments] = useState([]);
-  const [event, setEvent] = useState(null);
+const [reviews, setReviews] = useState([]);
+const [event, setEvent] = useState(null);
 
   const eventId = id;
 
@@ -22,6 +23,17 @@ function EventDetails() {
       console.log(error);
     }
   };
+  const fetchReviews = async () => {
+  try {
+    const response = await axios.get(
+      `${import.meta.env.VITE_API_URL}/api/reviews`
+    );
+
+    setReviews(response.data);
+  } catch (error) {
+    console.log(error);
+  }
+};
 
   const fetchEvent = async () => {
     try {
@@ -71,9 +83,10 @@ function EventDetails() {
   };
 
   useEffect(() => {
-    fetchEvent();
-    fetchComments();
-  }, []);
+  fetchEvent();
+  fetchComments();
+  fetchReviews();
+}, []);
 
   return (
     <div className="max-w-5xl mx-auto px-4 py-8">
@@ -119,6 +132,36 @@ function EventDetails() {
       </div>
 
       <hr className="my-8" />
+      {reviews.length === 0 ? (
+  <p className="text-gray-500 mb-6">
+    No reviews yet.
+  </p>
+) : (
+  <div className="space-y-4 mb-8">
+    {reviews.map((review) => (
+      <div
+        key={review._id}
+        className="border rounded-lg p-4 shadow-sm"
+      >
+        <p className="mb-2">
+          ⭐ Rating: {review.rating}/5
+        </p>
+
+        <p className="mb-2">
+          {review.comment}
+        </p>
+
+        <small className="text-gray-500">
+          By {review.user?.name || "User"}
+        </small>
+      </div>
+    ))}
+  </div>
+)}
+
+      <h2 className="text-2xl font-semibold mb-4">
+  Reviews
+</h2>
 
       <h2 className="text-2xl font-semibold mb-4">
         Comments
